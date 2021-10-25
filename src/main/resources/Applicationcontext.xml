@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--<bean id="User" class="com.xian.spring.domain.User" scope="prototype" init-method="init" destroy-method="destroy"></bean>-->
+    <!--<bean id="User" class="com.xian.spring.factory.StaticFactory" factory-method="getUser"></bean>-->
+    <!--<bean id="factory" class="com.xian.spring.factory.DynamicFactory"></bean>-->
+
+    <bean id="user1" class="com.xian.spring.domain.User" p:name="zhangsan" p:age="20" p:birthday="2001-9-20"/>
+    <bean id="user2" class="com.xian.spring.domain.User" p:name="lisi" p:age="22" p:birthday="2000-1-20"/>
+
+    <bean id="userDao" class="com.xian.spring.dao.Impl.UserDaoImpl" p:age="20" p:name="zhangsan"/>
+    <bean id="userDao" class="com.xian.spring.dao.Impl.UserDaoImpl">
+        <property name="strList">
+            <list>
+                <value>aaa</value>
+                <value>bbb</value>
+                <value>ccc</value>
+                <!--<ref></ref>引用对象-->
+            </list>
+        </property>
+        <property name="userMap">
+            <map>
+                <entry key="user1" value-ref="user1"/>
+                <entry key="user2" value-ref="user2"/>
+                <!--<ref></ref>引用对象-->
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="p1">ppppppp1</prop>
+                <prop key="p2">ppppppp2</prop>
+                <prop key="p3">ppppppp3</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--构造方法注入-->
+    <bean id="userService" class="com.xian.spring.service.UserServiceImpl">
+        <constructor-arg name="userDao" ref="userDao"/>
+    </bean>
+    <!--set方法注入-->
+    <!--对象注入-->
+    <!--<bean id="userService" class="com.xian.spring.service.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+    </bean>-->
+    <!--<bean id="userService" class="com.xian.spring.service.UserServiceImpl" p:userDao-ref="userDao"/>-->
+    <!--普通数据注入-->
+    <!--<bean id="userDao" class="com.xian.spring.dao.Impl.UserDaoImpl">
+        <property name="age" value="20"/>
+        <property name="name" value="zhangsan"></property>
+    </bean>-->
+    <!--<bean id="userDao" class="com.xian.spring.dao.Impl.UserDaoImpl" p:age="20" p:name="zhangsan"/>-->
+    <!--集合数据注入-->
+</beans>
